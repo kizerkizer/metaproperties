@@ -1,7 +1,7 @@
 {
   "name": "metaproperties",
   "version": "1.0.0",
-  "description": "",
+  "description": "Store information about objects without modifying them.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,6 +15,6 @@
     "object",
     "class"
   ],
-  "author": "kizerkizer",
+  "author": "Alex Kizer <apkizer2@illinois.edu>",
   "license": "MIT"
 }
