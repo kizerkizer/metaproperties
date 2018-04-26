@@ -1,5 +1,5 @@
 # metaproperties
-Associate data with any object without modifying it in any way. Implemented using WeakMaps. Works in browser and node.js.
+Associate data with any object without modifying the object in any way. Implemented using WeakMaps. Works in browser and node.js.
 ```javascript
 const varsof = require('metaproperties');
 varsof(someObject).secret = {
