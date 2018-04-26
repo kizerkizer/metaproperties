@@ -7,6 +7,7 @@ varsof(someObject).secret = {
 };
 someObject.secret // undefined
 varsof(someObject).secret.foo // bar
+```
 
 # installation
 ```console
