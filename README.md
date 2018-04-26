@@ -2,7 +2,9 @@
 Associate data with any object without modifying it in any way. Implemented using WeakMaps. Works in browser and node.js.
 
 # installation
-`npm install metaproperties --save`
+```console
+npm install metaproperties --save
+```
 
 # syntax
 ```javascript
