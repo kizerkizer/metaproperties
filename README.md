@@ -1,5 +1,12 @@
 # metaproperties
 Associate data with any object without modifying it in any way. Implemented using WeakMaps. Works in browser and node.js.
+```javascript
+varsof(someObject).secret = {
+  created: 'yesterday',
+  foo: 'bar'
+};
+someObject.secret // undefined
+varsof(someObject).secret.foo // bar
 
 # installation
 ```console
