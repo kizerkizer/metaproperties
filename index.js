@@ -7,7 +7,7 @@
   };
   const _defaultKey = _createKey();
   const _destroyKey = (key) => {
-    if (typeof key !== typeof _defaultKey) {
+    if (typeof key !== 'symbol') {
       return false;
     }
     return _allMaps.delete(key);
@@ -16,14 +16,14 @@
     if (!key) {
       key = _defaultKey;
     }
-    if (typeof key !== typeof _defaultKey) {
+    if (typeof key !== 'symbol') {
       throw new TypeError('invalid `key`');
     }
     if (!_allMaps.has(key)) {
       throw new Error('unknown `key`');
     }
     let vars = _allMaps.get(key);
-    if (!vars.has(object)) {
+    if (!vars.get(object)) {
       try {
         vars.set(object, {});
       } catch (error) {
