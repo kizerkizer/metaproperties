@@ -2,12 +2,12 @@
 Associate data with any object without modifying the object in any way. Implemented using WeakMaps. Works in browser and node.js.
 ```javascript
 const varsof = require('metaproperties');
-varsof(someObject).secret = {
+varsof(someObject).someProperty = {
   created: 'yesterday',
   foo: 'bar'
 };
-someObject.secret // undefined
-varsof(someObject).secret.foo // bar
+someObject.someProperty // undefined
+varsof(someObject).someProperty.foo // bar
 ```
 
 # installation
