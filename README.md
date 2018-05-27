@@ -113,7 +113,7 @@ varsof.destroyKey(key: Symbol): void
 ```
 
 ## etymology
-"metaproperties" sounded cool.
+"metaproperties" sounded cool. Also, metadata + properties = metaproperties.
 
 ## license
 MIT
