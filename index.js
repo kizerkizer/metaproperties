@@ -1,4 +1,4 @@
-{
+(() => {
   const _allMaps = new Map();
   const _createKey = () => {
     let key = Symbol('metaproperties.key');
@@ -67,4 +67,4 @@
   } else {
     varsof = _varsof;
   }
-}
+})();
