@@ -1,6 +1,6 @@
 {
   "name": "metaproperties",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Store information about objects without modifying them.",
   "main": "index.js",
   "scripts": {
