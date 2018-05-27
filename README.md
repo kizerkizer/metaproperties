@@ -1,4 +1,4 @@
-# metaproperties
+# ⏫ metaproperties
 Associate data with any object without modifying the object in any way. Implemented using `WeakMap`s. Works in browser and node.js.
 ```javascript
 const varsof = require('metaproperties');
@@ -111,6 +111,9 @@ Dispose of access keys once no longer needed:
 ```javascript
 varsof.destroyKey(key: Symbol): void
 ```
+
+## etymology
+"metaproperties" sounded cool.
 
 ## license
 MIT
