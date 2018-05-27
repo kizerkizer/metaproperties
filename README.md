@@ -1,29 +1,41 @@
 # metaproperties
-Associate data with any object without modifying the object in any way. Implemented using WeakMaps. Works in browser and node.js.
+Associate data with any object without modifying the object in any way. Implemented using `WeakMap`s. Works in browser and node.js.
 ```javascript
 const varsof = require('metaproperties');
-varsof(someObject).secret = {
+
+varsof(someObject).someProperty = {
   created: 'yesterday',
   foo: 'bar'
 };
-someObject.secret // undefined
-varsof(someObject).secret.foo // bar
+
+someObject.someProperty // undefined
+
+varsof(someObject).someProperty.foo // bar
 ```
 
-# installation
+## motivation
+
+There are many cases where one would like to store some information about or on an object, without affecting its state. For example, on objects created by an external library. Aside from defining a new property on the object, one would have to use a mapping implementation to associate the object with desired data.
+
+Prior to the introduction of `Map`s/`WeakMap`s, objects couldn't be used as keys in hash-map-like implementations. Typically, and object would be assigned a unique string identifier as a property, which would be used as the key of a map object. However, the new data structures are designed solely to function as hash-maps, and they allow objects to be used as keys directly, which improves performance.
+
+metaproperties is a thin abstraction over a `WeakMap`, offering some convenience and syntactic simplicity.
+
+## installation
 ```console
 npm install metaproperties --save
 ```
 
-# syntax
+## syntax
 ```javascript
 require('metaproperties')(object: Object [, key: Symbol]): Object
 require('metaproperties').createKey(): Symbol
 ```
 
-# usage
+## usage
 ```javascript
 const varsof = require('metaproperties');
+
 let object = {
   weight: 100,
   shape: 'round',
@@ -32,20 +44,27 @@ let object = {
     born: false
   }
 };
+
 varsof(object).secretProperty = 'foo';
+
 console.log(object.secretProperty); // undefined, as expected
+
 console.log(varsof(object).secretProperty); // foo, as expected
 ```
 
-# objects unaffected
+## objects unaffected
 ```javascript
 let beforeProps = Object.getOwnPropertyNames(object), // properties on object
     beforeSyms = Object.getOwnPropertySymbols(object); // symbols on object
+    
 varsof(object).secretProperty = 'foo';
+
 let afterProps = Object.getOwnPropertyNames(object),
     afterSyms = Object.getOwnPropertySymbols(object);
+    
 console.log(beforeProps.length === afterProps.length && beforeSyms.length ===
 afterSyms.length); // true, as expected
+
 let same = true;
 beforeProps.forEach((prop, i) => {
   same = same && beforeProps[i] === afterProps[i]
@@ -53,25 +72,34 @@ beforeProps.forEach((prop, i) => {
 beforeSyms.forEach((sym, i) => {
   same = same && beforeSyms[i] === afterSyms[i]
 });
+
 console.log(same); // true, as expected
 ```
 
-# performance
+## performance
+TL;DR It's about twice as slow as setting properties directly on an object. 
+
 Run `benchmark.js`. First line represents native (setting properties directly on object) performance, second line represents metaproperties' performance. My typical results in node.js:
-  16.29ms average (native)
-  29.44ms average (metaproperties)
+```console
+16.29ms average (native)
+29.44ms average (metaproperties)
+```
 
 Performance penalty should be minimal if `varsof(...)` is not used in critical
 performance sections.
 
-# secret keys
+## secret keys
 Specify a key to use as an access key. Must use `varsof.createKey` to create a
 key.
 ```javascript
 const varsof = require('metaproperties');
+
 let key = varsof.createKey();
+
 varsof(someObject, key).bigSecret = 'abc123';
+
 varsof(someObject).bigSecret // undefined, as expected
+
 varsof(someObject, key).bigSecret // 'abc123';
 ```
 
@@ -80,8 +108,8 @@ Dispose of access keys once no longer needed:
 varsof.destroyKey(key: Symbol): void
 ```
 
-# license
+## license
 MIT
 
-# feedback
+## feedback
 Create issues here on github or email `metapropertiesfeedback [at symbol] [google's email service]`.
