@@ -77,6 +77,8 @@ console.log(same); // true, as expected
 ```
 
 ## performance
+TL;DR It's about twice as slow as setting properties directly on an object. 
+
 Run `benchmark.js`. First line represents native (setting properties directly on object) performance, second line represents metaproperties' performance. My typical results in node.js:
 ```console
 16.29ms average (native)
