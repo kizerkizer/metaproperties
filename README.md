@@ -77,16 +77,20 @@ console.log(same); // true, as expected
 ```
 
 ## performance
-TL;DR It's about twice as slow as setting properties directly on an object. 
+Without using the secret key functionality described below, performance is just slightly slower than native.
 
-Run `benchmark.js`. First line represents native (setting properties directly on object) performance, second line represents metaproperties' performance. My typical results in node.js:
+Run `benchmark.js`; this does not test secret key functionality. The first line represents native (setting properties directly on object) performance, and the second line represents metaproperties' performance. My typical results in node.js:
 ```console
-16.29ms average (native)
-29.44ms average (metaproperties)
+31.93ms average (native)
+38.68ms average (metaproperties)
 ```
 
 Performance penalty should be minimal if `varsof(...)` is not used in critical
-performance sections.
+performance sections. 
+
+Please let me know if your results differ!
+
+Using the secret key functionality results in twice as slow as native performance; however, performance issues should generally not be noticeable.
 
 ## secret keys
 Specify a key to use as an access key. Must use `varsof.createKey` to create a
