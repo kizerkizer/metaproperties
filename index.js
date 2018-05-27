@@ -6,6 +6,8 @@
     return key;
   };
   const _defaultKey = _createKey();
+  const _defaultMap = new WeakMap();
+  _allMaps.set(_defaultKey, _defaultMap);
   const _destroyKey = (key) => {
     if (typeof key !== 'symbol') {
       return false;
@@ -14,7 +16,17 @@
   };
   const _varsof = (object, key) => {
     if (!key) {
-      key = _defaultKey;
+      // TODO DRY
+      let vars = _defaultMap.get(object);
+      if (!vars) {
+        try {
+          _defaultMap.set(object, {});
+        } catch (error) {
+          throw new Error('invalid target');
+        }
+        return _defaultMap.get(object);
+      }
+      return vars;
     }
     if (typeof key !== 'symbol') {
       throw new TypeError('invalid `key`');
