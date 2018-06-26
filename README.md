@@ -85,8 +85,8 @@ Without using the secret key functionality described below, performance is just 
 
 Run `benchmark.js`; this does not test secret key functionality. The first line represents native (setting properties directly on object) performance, and the second line represents metaproperties' performance. My typical results in node.js:
 ```console
-31.93ms average (native)
-38.68ms average (metaproperties)
+31.37ms average (native)
+32.31ms average (meta)
 ```
 
 Performance penalty should be minimal if `varsof(...)` is not used in critical
