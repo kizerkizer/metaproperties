@@ -12,8 +12,8 @@ someObject.someProperty // undefined
 
 meta(someObject).someProperty.foo // 'bar'
 
-meta(someObject).count = 0;
-meta(someObject).count++;
+meta(someObject) = 0;
+meta(someObject)++;
 // etc
 ```
 
