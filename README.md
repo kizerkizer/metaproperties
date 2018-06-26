@@ -1,16 +1,20 @@
 # ⏫ metaproperties
 Associate data with any object without modifying the object in any way. Implemented using `WeakMap`s. Works in browser and node.js.
 ```javascript
-const varsof = require('metaproperties');
+const meta = require('metaproperties');
 
-varsof(someObject).someProperty = {
+meta(someObject).someProperty = {
   created: 'yesterday',
   foo: 'bar'
 };
 
 someObject.someProperty // undefined
 
-varsof(someObject).someProperty.foo // bar
+meta(someObject).someProperty.foo // 'bar'
+
+meta(someObject).count = 0;
+meta(someObject).count++;
+// etc
 ```
 
 ## motivation
