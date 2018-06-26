@@ -1,70 +1,63 @@
 (() => {
-  const _allMaps = new Map();
-  const _createKey = () => {
-    let key = Symbol('metaproperties.key');
-    _allMaps.set(key, new WeakMap());
+  const keyToObjectMap = new Map();
+
+  const createKey = () => {
+    let key = Symbol(`metaproperties.key`);
+    keyToObjectMap.set(key, new WeakMap());
     return key;
   };
-  const _defaultKey = _createKey();
-  const _defaultMap = new WeakMap();
-  _allMaps.set(_defaultKey, _defaultMap);
-  const _destroyKey = (key) => {
-    if (typeof key !== 'symbol') {
-      return false;
+
+  const defaultMap = new WeakMap();
+
+  function createVars (map, object, value) {
+    try {
+      map.set(object, value);
+    } catch (error) {
+      throw new Error(`invalid target`);
     }
-    return _allMaps.delete(key);
+  }
+
+  let lastObject,
+    lastKey,
+    lastVars;
+
+  const meta = (object, key) => {
+    if (object === lastObject && key === lastKey) {
+      return lastVars;
+    }
+    const map = (key !== undefined) ? (keyToObjectMap.get(key)) : (defaultMap);
+    if (!map) {
+      console.log(map);
+      throw new Error(`unknown \`key\``);
+    }
+    let vars = map.get(object);
+    if (vars === undefined) {
+      createVars(map, object, {});
+    }
+    lastObject = object;
+    lastKey = key;
+    lastVars = map.get(object);
+    return lastVars;
   };
-  const _varsof = (object, key) => {
-    if (!key) {
-      // TODO DRY
-      let vars = _defaultMap.get(object);
-      if (!vars) {
-        try {
-          _defaultMap.set(object, {});
-        } catch (error) {
-          throw new Error('invalid target');
-        }
-        return _defaultMap.get(object);
-      }
-      return vars;
-    }
-    if (typeof key !== 'symbol') {
-      throw new TypeError('invalid `key`');
-    }
-    if (!_allMaps.has(key)) {
-      throw new Error('unknown `key`');
-    }
-    let vars = _allMaps.get(key);
-    if (!vars.get(object)) {
-      try {
-        vars.set(object, {});
-      } catch (error) {
-        throw new Error('invalid target');
-      }
-    }
-    return vars.get(object);
-  };
-  _varsof.createKey = _createKey;
+
+  meta.createKey = createKey;
+
   if (module && module.exports) {
-    module.exports = _varsof;
+    module.exports = meta;
     return;
   }
+
   let _global = 
-    typeof self === 'object' && self.self === self && self ||
-    typeof global === 'object' && global.global === global && global ||
-    this ||
-    false;
+    (typeof self === 'object' && self.self === self && self) ||
+    (typeof global === 'object' && global.global === global && global) ||
+    this;
   let existingDefinition;
-  if (existingDefinition = (_global ? _global.varsof : varsof)) {
-      Object.defineProperty(_varsof, 'existingDefinition', {
+  if (existingDefinition = (_global ? _global.meta : meta)) {
+      Object.defineProperty(meta, 'existingDefinition', {
         get () {
           return existingDefinition;
         }
       });
     }
-  if (_global) {
-    _global.varsof = varsof;
-  } else {
-    varsof = _varsof;
-  }
+  _global.meta = meta;
 })();
